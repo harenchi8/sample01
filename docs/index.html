@@ -1,10 +1,105 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+<meta charset="UTF-8">
+<title>Document</title>
+
+<style>
+	body {
+		font-family: sans-serif;
+	}
+	body * {
+		box-sizing: border-box;
+	}
+	.btnList {
+		margin-top: 100px;
+		text-align: center;
+	}
+	.btnList p {
+		line-height: 1.8;
+		margin-bottom: 40px;
+	}
+	button {
+		padding: 10px 20px;
+		box-sizing: border-box;
+		border-radius: 24px;
+		font-size: 16px;
+		background-color: #eee;
+		border: 1px solid #eee;
+		outline: none;
+		line-height: 1;
+		min-width: 100px;
+	}
+	button:not(:first-child) {
+		margin-left: 20px;
+	}
+	button:hover {
+		background-color: #fff;
+	}
+	.modal {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		background-color: rgba(0, 0, 0, .5);
+		display: none;
+	}
+	.modal-contents {
+		background-color: #fff;
+		width: 500px;
+		height: 500px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translateY(-50%) translateX(-50%);
+		text-align: center;
+		padding-top: 100px;
+	}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script>
+	$(function(){
+		
+		$('.js-modal').on('click', modalOpen);
+		$(document).on('click', '.btn-close, .modal', modalClose)
+		
+		
+		var $modal = $('.modal');
+		var ease = '';
+		
+		function modalOpen(e){
+			ease = $(e.currentTarget).data('ease');
+			$modal.stop(true).fadeTo(400, 1, ease);	
+		}
+		
+		function modalClose(e){
+			if($(e.currentTarget).hasClass('modal')){
+				if($(e.target).hasClass('modal-contents')){
+					return;
+				}
+			}
+			$modal.stop(true).fadeTo(400, 0, ease, function(){
+				$modal.hide();
+			});	
+		}
+	});
+</script>
 </head>
 <body>
-	test mmmm
+	<div class="btnList">
+		<p>1~3のボタンを押すと、小窓が現れます。</p>
+		<button id="btn01" class="js-modal" data-ease="easeInSine">ボタン 1</button>
+		<button id="btn02" class="js-modal" data-ease="easeOutSine">ボタン 2</button>
+		<button id="btn03" class="js-modal" data-ease="easeInOutSine">ボタン 3</button>
+	</div>
+	<!-- /.btnList -->
+	<div class="modal">
+		<div class="modal-contents">
+			<button class="btn-close">とじる</button>
+		</div>
+	</div>
 </body>
 </html>
